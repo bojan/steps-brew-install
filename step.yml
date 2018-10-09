@@ -21,6 +21,14 @@ toolkit:
     package_name: github.com/bitrise-steplib/steps-brew-install
 
 inputs:
+  - tap:
+    opts:
+      title: "Name of the formula repository to tap."
+      summary: "Name of the formula repository to tap."
+      description: "Name of the formula repository to tap."
+      is_expand: true
+      is_required: false
+      value_options: []
   - packages:
     opts:
       title: "Name of the formula to install/upgrade"

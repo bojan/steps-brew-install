@@ -13,6 +13,7 @@ import (
 
 // ConfigsModel ...
 type ConfigsModel struct {
+	Tap		 string
 	Packages string
 	Options  string
 	Upgrade  string
@@ -20,6 +21,7 @@ type ConfigsModel struct {
 
 func createConfigsModelFromEnvs() ConfigsModel {
 	return ConfigsModel{
+		Tap: os.Getenv("packages"),
 		Packages: os.Getenv("packages"),
 		Options:  os.Getenv("options"),
 		Upgrade:  os.Getenv("upgrade"),
@@ -28,6 +30,7 @@ func createConfigsModelFromEnvs() ConfigsModel {
 
 func (configs ConfigsModel) print() {
 	log.Infof("Configs:")
+	log.Printf("- Tap: %s", configs.Tap)
 	log.Printf("- Packages: %s", configs.Packages)
 	log.Printf("- Options: %s", configs.Options)
 	log.Printf("- Upgrade: %s", configs.Upgrade)
@@ -59,6 +62,16 @@ func main() {
 	if err := command.RunCommand("brew", "update"); err != nil {
 		log.Errorf("Can't update brew: %s", err)
 		os.Exit(1)
+	}
+
+	if configs.Tap != "" {
+		tapCmdArgs := []string{}
+		tapCmdArgs = append(tapCmdArgs, "tap")
+		tapCmdArgs = append(tapCmdArgs, configs.Tap)
+		if err := command.RunCommand("brew", tapCmdArgs...); err != nil {
+			log.Errorf("Can't install tap:  %s", err)
+			os.Exit(1)
+		}
 	}
 
 	cmdArgs := []string{}
