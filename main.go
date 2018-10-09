@@ -21,7 +21,7 @@ type ConfigsModel struct {
 
 func createConfigsModelFromEnvs() ConfigsModel {
 	return ConfigsModel{
-		Tap: os.Getenv("packages"),
+		Tap: os.Getenv("tap"),
 		Packages: os.Getenv("packages"),
 		Options:  os.Getenv("options"),
 		Upgrade:  os.Getenv("upgrade"),
